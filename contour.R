@@ -1,3 +1,10 @@
+load.scatter <- function(filename) {
+  data <- read.table(filename, header=FALSE, comment.char="", row.names=1,
+                     colClasses=c("character","numeric","numeric","factor"),
+                     col.names=c("name","phi","psi","type"))
+  return(data)    
+}
+
 load.grid <- function(filename, mid.points) {
   data <- as.matrix(read.table(filename, header=FALSE, comment.char="#",
                                colClasses=c("numeric","numeric","numeric"),
@@ -65,11 +72,22 @@ grid.colors <- t(cbind(General=c('#FFFFFF','#B3E8FF','#7FD9FF'),
 
 grid.dir <- "/home/john/Downloads/New Folder/top500-angles/pct/rama/"
 
+scatter.filename <- "/home/john/Downloads/New Folder/1HMP.tsv"
+
+scatter.data <- load.scatter(scatter.filename)
+
+par(mfrow=c(2,2))
+
 for(rama.type in names(grid.filenames)) {
   col.name = grid.columnnames[rama.type]
-grid.filename <- paste(grid.dir,grid.filenames[rama.type],sep="")
-grid <- load.grid(grid.filename, mid.points)
-
-par(pty="s")
+  scatter.phi <- scatter.data[which(scatter.data[,"type"]==col.name),"phi"]
+  scatter.psi <- scatter.data[which(scatter.data[,"type"]==col.name),"psi"]
+  grid.filename <- paste(grid.dir,grid.filenames[rama.type],sep="")
+  grid <- load.grid(grid.filename, mid.points)
+  par(mar=c(3,3,3,3), mgp=c(1.75,0.75,0), pty="s")
+  plot(x=scatter.phi, y=scatter.psi, xlim=c(-180,180), ylim=c(-180,180), main=grid.captions[rama.type],  xlab=expression(phi), ylab=expression(psi), pch=20, cex=0.1, asp=1.0)
+  .filled.contour(x=mid.points,y=mid.points,z=grid,levels=grid.levels[rama.type,],col=grid.colors[rama.type,])
+  
 }
-filled.contour(x=mid.points, y=mid.points, z=grid, levels=c(0,0.002,0.02,1), col=c("#FFFFFF","#FFE8C5","#FFCC7F"), main="Glycine (Symmetric)", asp=1.0, xlab=expression(phi), ylab=expression(psi))
+
+
