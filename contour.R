@@ -87,6 +87,8 @@ for(rama.type in names(grid.filenames)) {
   par(mar=c(3,3,3,3), mgp=c(1.75,0.75,0), pty="s")
   plot(x=scatter.phi, y=scatter.psi, xlim=c(-180,180), ylim=c(-180,180), main=grid.captions[rama.type],  xlab=expression(phi), ylab=expression(psi), pch=20, cex=0.1, asp=1.0)
   .filled.contour(x=mid.points,y=mid.points,z=grid,levels=grid.levels[rama.type,],col=grid.colors[rama.type,])
+  par(new = TRUE)
+  plot(x=scatter.phi, y=scatter.psi, xlim=c(-180,180), ylim=c(-180,180), main=grid.captions[rama.type],  xlab=expression(phi), ylab=expression(psi), pch=20, cex=0.1, asp=1.0)
   
 }
 
