@@ -1,5 +1,5 @@
 # Ramachandran-Plot
-Work underway : R code for creating Ramachandran Plot
+R code for creating Ramachandran Plot (Python Code underway)
 # Scatter plot 
 from input data superimposed on
 # Contour plot 
